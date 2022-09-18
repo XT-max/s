@@ -1,17 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<body>
+    <h1>
+        <div> Надо <a href="/user/j"> Домой</a></div>
+    </h1>
+
     <meta charset="UTF-8">
     <meta charset="UTF-8">
-    {% if title %}
-    <title>Самые крутые машины </title>
-    {% else%}
-    <title>Добро пожаловать в мир машин </title>
+
+    {% if title == '1' %}
+    <h1 align='center'>Привет!</h1>
+    {% elif title %}
+    <title> {{title}} </title>
+    {% else %}
+    <title>and </title>
     {% endif %}
-</head>
+    {% if title == '2' %}
+    <h1 align='center'>Hello!</h1>
+    {% elif title %}
+    <title> {{title}} </title>
+    {% else %}
+    <title>and </title>
+    {% endif %}
+    {% if title == '3' %}
+    <h1 align='center'>Bonjour!</h1>
+    {% elif title %}
+    <title> {{title}} </title>
+    {% else %}
+    <title>and </title>
+    {% endif %}
+    {% if title == '4' %}
+    <h1 align='center'>Guten Tag!</h1>
+    {% elif title %}
+    <title> {{title}} </title>
+    {% else %}
+    <title>and </title>
+    {% endif %}
+    <body style='background-color: #55D52B'>
+    <h1 align='center'>Осло</h1>,<img style="display: block;margin:auto;" src="https://cdn.fishki.net/upload/post/2017/02/23/2226088/b368bb8a2c5bdbc8e699fd4067adabbf.jpg" width="1300" height="970">
+    <h1 align='center'>Гонконг</h1>,<img style="display: block;margin: auto;" src="https://set-travel.com/wp-content/uploads/2020/05/hong-kong-gonkong-vecher-ogni.jpg" width="1300" height="970">
+    <h1 align='center'>Москва</h1>,<img style="display: block;margin: auto;" src="https://nesiditsa.ru/wp-content/uploads/2012/10/Moskva.jpg" width="1300" height="970">
+ </body>
+
+
+
 <body>
 <h1>
-    <div> Крутые машины <a href="/index/"> Домой</a></div>
+    <div> Надо <a href="/user/j"> Домой</a></div>
 </h1>
 <hr>
 {% block content %}
