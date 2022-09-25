@@ -1,12 +1,23 @@
 from flask import Flask, render_template
 import random
+from forms import LoginForm
+
+from config import Config
 
 app = Flask(__name__)
+app.config.from_object(Config)
+
 
 
 @app.route('/')
 def hello():
     return f"""Привет"""
+
+
+@app.route('/login/')
+def login():  # put application's code here
+    form = LoginForm()
+    return render_template('login.html', title='Авторизация пользователя', form=form)
 
 
 @app.route('/petya/')
@@ -52,7 +63,7 @@ def petya():  # put application's code here
 
 @app.route('/user/<username>')
 def user_profile(username):  # put application's code here
-    return render_template('index.html',title=str(random.randint(1,4)))
+    return render_template('index.html', title=str(random.randint(1, 4)))
 
 
 @app.route('/user/<int:post_id>')
