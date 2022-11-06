@@ -9,10 +9,14 @@ app.config.from_object(Config)
 
 
 
-@app.route('/')
-def hello():
-    return f"""Привет"""
+@app.route('/login2/')
+def login2():  # put application's code here
 
+    return render_template('login_v2.html')
+@app.route('/login3/')
+def login3():  # put application's code here
+
+    return render_template('login_v3.html')
 
 @app.route('/login/')
 def login():  # put application's code here
@@ -21,7 +25,11 @@ def login():  # put application's code here
 
 
 @app.route('/petya/')
+def petya1():
+    return render_template('index.html', title=str(random.randint(1, 4)))
+@app.route('/')
 def petya():  # put application's code here
+
     return ''' <h2> Александр Твардовский
 
 Василий Теркин. Сборник
@@ -61,14 +69,19 @@ def petya():  # put application's code here
     </h2> '''
 
 
-@app.route('/user/<username>')
-def user_profile(username):  # put application's code here
-    return render_template('index.html', title=str(random.randint(1, 4)))
+
+#@app.route('/user/<username>')
+#def user_profile(username):  # put application's code here
+#   return render_template('index.html', title=str(random.randint(1, 4)))
 
 
-@app.route('/user/<int:post_id>')
-def show_post(post_id):  # put application's code here
-    return f"<h1>Горячая и свежая новость № {post_id}</h1>"
+#@app.route('/user/<int:post_id>')
+#def show_post(post_id):  # put application's code here
+#    return f"<h1>Горячая и свежая новость № {post_id}</h1>"
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("page404.html", title="Страница не найдена")
 
 
 if __name__ == '__main__':
