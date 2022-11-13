@@ -1,5 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session, redirect, url_for, request, abort
 import random
+
 from forms import LoginForm
 
 from config import Config
@@ -7,16 +8,49 @@ from config import Config
 app = Flask(__name__)
 app.config.from_object(Config)
 
+login_in_pass = {'max': '123', 'alex': '321', 'den': '0000'}
 
 
-@app.route('/login2/')
+@app.route('/admin/', methods=['POST', 'GET'])
+def admin():  # put application's code here
+
+    if 'userlogged' in session:
+        return redirect(url_for('profile', username=session['userlogged']))
+    elif request.method == 'POST' and request.form['username'] not in login_in_pass:
+        login_in_pass[request.form['username']] = request.form['psw']
+        print(login_in_pass)
+    elif request.method == 'POST' and request.form['username'] in login_in_pass:
+        del login_in_pass[request.form['username']]
+        print(login_in_pass)
+    return render_template('admin.html', title='Авторизация пользователя')
+
+
+@app.route('/login2/', methods=['POST', 'GET'])
 def login2():  # put application's code here
 
-    return render_template('login_v2.html')
-@app.route('/login3/')
+    if 'userlogged' in session:
+        return redirect(url_for('profile', username=session['userlogged']))
+
+    elif request.method == 'POST' and request.form['username'] in login_in_pass and request.form['psw'] == \
+            login_in_pass[request.form['username']]:
+
+        session['userlogged'] = request.form['username']
+        return redirect(url_for('profile', username=session['userlogged']))
+    return render_template('login_v2.html', title='Авторизация пользователя')
+
+
+@app.route('/profile/<username>')
+def profile(username):
+    if 'userlogged' not in session or session['userlogged'] != username:
+        abort(401)
+    return f'<h1> Пользователь {username}'
+
+
+@app.route('/post/')
 def login3():  # put application's code here
 
-    return render_template('login_v3.html')
+    return render_template('post.html')
+
 
 @app.route('/login/')
 def login():  # put application's code here
@@ -27,6 +61,8 @@ def login():  # put application's code here
 @app.route('/petya/')
 def petya1():
     return render_template('index.html', title=str(random.randint(1, 4)))
+
+
 @app.route('/')
 def petya():  # put application's code here
 
@@ -69,14 +105,13 @@ def petya():  # put application's code here
     </h2> '''
 
 
-
-#@app.route('/user/<username>')
-#def user_profile(username):  # put application's code here
+# @app.route('/user/<username>')
+# def user_profile(username):  # put application's code here
 #   return render_template('index.html', title=str(random.randint(1, 4)))
 
 
-#@app.route('/user/<int:post_id>')
-#def show_post(post_id):  # put application's code here
+# @app.route('/user/<int:post_id>')
+# def show_post(post_id):  # put application's code here
 #    return f"<h1>Горячая и свежая новость № {post_id}</h1>"
 
 @app.errorhandler(404)
