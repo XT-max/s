@@ -1,6 +1,11 @@
-from flask import Flask, render_template, session, redirect, url_for, request, abort
 import random
+import datetime
+import os
+import sqlite3
 
+from flask import Flask, render_template, flash, redirect, session, url_for, request, abort, g
+
+from fdatabase import FDataBase
 from forms import LoginForm
 
 from config import Config
@@ -9,6 +14,29 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 login_in_pass = {'max': '123', 'alex': '321', 'den': '0000'}
+
+app = Flask(__name__)
+app.config.from_object(Config)
+app.config.update(dict(DATABASE=os.path.join(app.root_path, 'fdb.db')))
+app.permanent_session_lifetime = datetime.timedelta(seconds=60)
+
+
+def connect_db():
+    conn = sqlite3.connect(app.config['DATABASE'])
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def get_db():
+    if not hasattr(g, 'link_db'):
+        g.link_db = connect_db()
+        return g.link_db
+
+
+@app.teardown_appcontext
+def close_db(error):
+    if hasattr(g, 'link_db'):
+        g.link_db.close()
 
 
 @app.route('/admin/', methods=['POST', 'GET'])
@@ -46,8 +74,8 @@ def profile(username):
     return f'<h1> Пользователь {username}'
 
 
-@app.route('/post/')
-def login3():  # put application's code here
+@app.route('/post')
+def post():  # put application's code here
 
     return render_template('post.html')
 
@@ -58,51 +86,15 @@ def login():  # put application's code here
     return render_template('login.html', title='Авторизация пользователя', form=form)
 
 
-@app.route('/petya/')
-def petya1():
-    return render_template('index.html', title=str(random.randint(1, 4)))
-
-
 @app.route('/')
-def petya():  # put application's code here
+@app.route('/index')
+def index():
+    db = get_db()
+    database = FDataBase(db)
 
-    return ''' <h2> Александр Твардовский
+    return render_template('index.html', title=str(random.randint(1, 4)), menu=database.getMenu())
 
-Василий Теркин. Сборник
 
-Лирика
-
-РОДНОЕ
-
-<br>Дорог израненные спины, </br>
-<br>Тягучий запах конопли…  </br>
-<br>Передо мной знакомые картины  </br>
-<br>И тихий вид родной земли… </br>
-<br>Я вижу – в сумерках осенних </br>
-<br>Приютом манят огоньки. </br>
-<br>Иду в затихнувшие сени, </br>
-<br>Где пахнет залежью пеньки. </br>
-<br>На стенке с радостью заметить </br>
-<br>Люблю приклеенный портрет. </br>
-<br>И кажется, что тихо светит </br>
-<br>В избе какой-то новый свет. </br>
-<br>Еще с надворья тянет летом, </br>
-<br>Еще не стихнул страдный шум… </br>
-<br>Пришла «Крестьянская газета», </br>
-<br>Как ворох мужиковских дум.  </br>
-<br>А проскрипит последним возом </br>
-<br>Уборка хлеба на полях — </br>
-<br>И осень закует морозом </br>
-<br>В деревне трудовой размах. </br>
-<br>Придет зима. Под шум метелей </br>
-<br>В читальне, в радостном тепле, </br>
-<br>Доклад продуманный застелет </br>
-<br>Старинку темную в селе… </br>
-<br>А за столом под шум газетный </br>
-<br>Улыбки вспыхнут в бородах, </br>
-<br>Прочтя о разностях на свете, </br>
-<br>О дальних шумных городах. </br>
-    </h2> '''
 
 
 # @app.route('/user/<username>')

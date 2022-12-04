@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
 <body>
+
     <meta charset="UTF-8">
-    <meta charset="UTF-8">
+
+
 
     {% if title == '1' %}
     <h1 align='center'>Привет!</h1>
@@ -33,17 +35,40 @@
     {% else %}
     <title>and </title>
     {% endif %}
-    <body style='background-color: #55D52B'>
+
+    <body>
+
+    {% block content %}
+            {%- block mainmenu -%}
+            <ul>
+                {% for m in menu -%}
+                <li><a href="{{url_for(m.url)}}"> {{m.title}}</a></li>
+            {% endfor -%}
+            </ul>
+                {% endblock mainmenu -%}
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{message}}     </li>
+        {% endfor %}
+    </ul>
+
     <h1 align='center'>Осло</h1>,<img style="display: block;margin:auto;" src="https://cdn.fishki.net/upload/post/2017/02/23/2226088/b368bb8a2c5bdbc8e699fd4067adabbf.jpg" width="1300" height="970">
     <h1 align='center'>Гонконг</h1>,<img style="display: block;margin: auto;" src="https://set-travel.com/wp-content/uploads/2020/05/hong-kong-gonkong-vecher-ogni.jpg" width="1300" height="970">
     <h1 align='center'>Москва</h1>,<img style="display: block;margin: auto;" src="https://nesiditsa.ru/wp-content/uploads/2012/10/Moskva.jpg" width="1300" height="970">
- </body>
+    }
+
+
+    {% endif %}
+    {% endwith %}
+    {% endblock %}
+    </body>
 
 
 
-<body>
 
-<hr>
-{% block content %}
-{% endblock %}
-</body>
+
+
+
