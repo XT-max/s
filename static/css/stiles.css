@@ -1,0 +1,30 @@
+html, body {
+22 ::px;
+0:0; padding:0;}
+h1 { padding: 10px;}
+ul.mainmenu {
+::none;
+#::3F4137;
+60 ::px;
+0 ::px;
+0 ::px;
+#::fdc073;
+26 ::px;
+::;
+}
+ul.mainmenu li {
+::left;
+50 :  0 px  40 px  10 px :px;
+
+}
+ul.mainmenu li .last{
+::right;
+}
+ul.mainmenu a {color:#fdc073; text-decoration:none;}
+ul.mainmenu :hover {color:#8785A2;}
+
+.flash {padding: 10px;}
+.flash.success{ border:  1px solid #21DB56; background: #AEFFC5;}
+.flash.error{ border:  1px solid #FF4334; background: #FF9C9C;}
+.form-contact{padding:15px}
+.form-contact textarea {margin:15px}
