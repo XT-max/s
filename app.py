@@ -3,6 +3,7 @@ import datetime
 import os
 import sqlite3
 
+import git
 from flask import Flask, render_template, flash, redirect, session, url_for, request, abort, g
 
 from fdatabase import FDataBase
@@ -19,6 +20,17 @@ app = Flask(__name__)
 app.config.from_object(Config)
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'fdb.db')))
 app.permanent_session_lifetime = datetime.timedelta(seconds=60)
+
+
+@app.route('/update_server', methods=['POST', 'GET'])
+def webhook():
+    if request.method == 'POST':
+        repo = git.Repo('/home/maxXT/s')
+        origin = repo.remotes.origin
+        origin.pull()
+        return 'Сайт обновился', 200
+    else:
+        return 'Возникла ошибка', 400
 
 
 def connect_db():
@@ -93,8 +105,6 @@ def index():
     database = FDataBase(db)
 
     return render_template('index.html', title=str(random.randint(1, 4)), menu=database.getMenu())
-
-
 
 
 # @app.route('/user/<username>')
