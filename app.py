@@ -57,7 +57,7 @@ def test2():  # put application's code here
 @app.route('/test3')
 def test3():  # put application's code here
 
-    return f'Авторизация пользователя!'
+    return f'ДА'
 
 @app.route('/admin/', methods=['POST', 'GET'])
 def admin():  # put application's code here
