@@ -54,7 +54,7 @@ def close_db(error):
 def test2():  # put application's code here
     return f'Авторизация пользователя!'
 @app.route('/test5')
-def test2():  # put application's code here
+def test5():  # put application's code here
     return f'ДА!'
 
 
