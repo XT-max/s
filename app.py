@@ -52,12 +52,11 @@ def close_db(error):
 
 @app.route('/test2')
 def test2():  # put application's code here
-
     return f'Авторизация пользователя!'
-@app.route('/test5')
-def test5():  # put application's code here
+@app.route('/test10')
+def test2():  # put application's code here
+    return f'ДА!'
 
-    return f'ДА'
 
 @app.route('/admin/', methods=['POST', 'GET'])
 def admin():  # put application's code here
