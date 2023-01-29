@@ -50,6 +50,10 @@ def close_db(error):
     if hasattr(g, 'link_db'):
         g.link_db.close()
 
+@app.route('/test2')
+def test2():  # put application's code here
+
+    return f'Авторизация пользователя'
 
 @app.route('/admin/', methods=['POST', 'GET'])
 def admin():  # put application's code here
